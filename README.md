@@ -22,5 +22,5 @@ wget  https://gitee.com/xr2021/jd-shell/raw/v3/install_scripts/docker_install_jd
 
 
 
-# docker 一键安装 扫码获取ck目前失效! 需要手动找cookie
+# docker 一键安装 扫码获取ck目前失效! 需要手动找cookie[点击查看](https://github.com/hajiuhajiu/scripts/blob/master/icon/GetJdCookie.md)  
 

@@ -2,7 +2,6 @@
 ##前几天操作失误,导致配置文件重置 配置文件从备份恢复方法: 在设置页面定时设定里增加下面一行，保存后会自动更新,：
 ##### 22 * * * * bash /root/jd/git_pull.sh >/dev/null 2>&1 
 ##更新时间为每小时的第22分钟 
-##手动恢复:下载putty 登陆后输入 cd config/bak 然后输入 ls 察看最后的config.sh文件备份,如config.sh_2021-9-6-6-23-164 ##然后输入命令：cp ##/root/jd/config/bak/config.sh_2021-9-6-6-23-164 /root/jd/config/config.sh -f 回车即可恢复手动恢复:
 
 
 #已经添加支持手机运行!!!! 可以用闲置的安卓手机安装App后添加面板设置脚本运行!
@@ -11,11 +10,10 @@
 
 
 
-
-不要用action跑， 否则github封号，
-低调使用，不要fork！尽量第一时间同步更新脚本。防止失联请收藏gitee备份地址：https://gitee.com/xr2021/jdsign
- Action 打开方式 setting--actions ......Actions permissions
+不要用action跑， 否则github封号，低调使用，不要fork！尽量第一时间同步更新脚本。
+防止失联请收藏gitee备份地址：https://gitee.com/xr2021/jdsign     Action 打开方式 setting--actions ......Actions permissions
 .........Allow all actions...save 
+
 # docker 一键安装：
 
 wget  https://gitee.com/xr2021/jd-shell/raw/v3/install_scripts/docker_install_jd.sh -O docker_install_jd.sh && chmod +x docker_install_jd.sh && bash docker_install_jd.sh
@@ -24,6 +22,5 @@ wget  https://gitee.com/xr2021/jd-shell/raw/v3/install_scripts/docker_install_jd
 
 
 
+# docker 一键安装 扫码获取ck目前失效! 需要手动找cookie
 
-扫码获取ck目前仅仅支持扫码设备与获取二维码设备同ip下才能成功获取否则提示失效!
-扫码获取ck目前仅仅支持扫码设备与获取二维码设备同ip下才能成功获取否则提示失效!!

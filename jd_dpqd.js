@@ -1,4 +1,4 @@
-/*  12/28更新
+/*  12/14 更新 
 店铺签到，各类店铺签到，有新的店铺直接添加token即可
 搬运cui521大佬脚本，请勿外传！！！
 
@@ -25,6 +25,7 @@ let activityId=''
 let vender=''
 let num=0
 let shopname=''
+
 
 const token=[
   "F831C64B8D2EF803C66A2A18D5224208",

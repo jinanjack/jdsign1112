@@ -73,6 +73,7 @@ message = ""
       $.nickName = '';
       $.maxJoyCount = 10
       await TotalBean();
+      await $.wait(5000)
       if (!$.isLogin) {
         $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
 
@@ -123,7 +124,7 @@ message = ""
 
 
 async function getJoyBaseInfo(taskId = '', inviteType = '', inviterPin = '', printLog = false) {
-  //await $.wait(20)
+  await $.wait(5000)
   return new Promise(resolve => {
     $.post(taskPostClientActionUrl(`body={"taskId":"${taskId}","inviteType":"${inviteType}","inviterPin":"${inviterPin}","linkId":"LsQNxL7iWDlXUs6cFl-AAg"}&appid=activities_platform`, `joyBaseInfo`), async (err, resp, data) => {
       try {
@@ -152,7 +153,7 @@ async function getJoyBaseInfo(taskId = '', inviteType = '', inviterPin = '', pri
 }
 
 function getJoyList(printLog = false) {
-  //await $.wait(20)
+  await $.wait(5000)
   return new Promise(resolve => {
     $.get(taskGetClientActionUrl(`appid=activities_platform&body={"linkId":"LsQNxL7iWDlXUs6cFl-AAg"}`, `joyList`), async (err, resp, data) => {
       try {
@@ -175,7 +176,7 @@ function getJoyList(printLog = false) {
             }
             $.log("\n在铲土的joy⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️")
             for (let i = 0; i < data.data.workJoyInfoList.length; i++) {
-              //$.wait(50)
+              await $.wait(5000)
               $.log(`工位: ${data.data.workJoyInfoList[i].location} [${data.data.workJoyInfoList[i].unlock ? `已开` : `未开`}]|joy= ${data.data.workJoyInfoList[i].joyDTO ? `id:${data.data.workJoyInfoList[i].joyDTO.id}|name: ${data.data.workJoyInfoList[i].joyDTO.name}|level: ${data.data.workJoyInfoList[i].joyDTO.level}` : `毛都没有`}`)
             }
             $.log(`===== 【京东账号${$.index}】${$.nickName || $.UserName} joy 状态  end  =====\n`)
@@ -193,7 +194,7 @@ function getJoyList(printLog = false) {
 }
 
 function getGameShopList() {
-  //await $.wait(20)
+  await $.wait(5000)
   return new Promise(resolve => {
     $.get(taskGetClientActionUrl(`appid=activities_platform&body={"linkId":"LsQNxL7iWDlXUs6cFl-AAg"}`, `gameShopList`), async (err, resp, data) => {
       try {

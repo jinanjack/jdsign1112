@@ -28,7 +28,7 @@ wget  https://gitee.com/xr2021/jd-shell/raw/v3/install_scripts/docker_install_jd
 防止失联请收藏gitee备份地址：https://gitee.com/xr2021/jdsign   
 
 # 建议安装docker可视化管理工具portainer,可以管理docker容器察看状态 
-
+按下面两步安装, 安装完成后 输入 ip地址:9000 (如:http://192.168.1.1:9000/)访问
 docker pull portainer/portainer
 
 docker run -d -p 9000:9000 -v /root/portainer:/data -v /var/run/docker.sock:/var/run/docker.sock --name dev-portainer portainer/portainer

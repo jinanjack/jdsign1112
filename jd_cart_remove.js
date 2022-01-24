@@ -155,6 +155,7 @@ async function run(){
                     operNum += s.clearSkus && s.clearSkus.length || 1;
                     operations.push({
                       "itemType": s.itemType+"",
+                        
                       "suitType": s.suitType,
                       "skuUuid": s.skuUuid+"",
                       "itemId": s.itemId || s.skuId,

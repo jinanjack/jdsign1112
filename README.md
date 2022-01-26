@@ -16,7 +16,7 @@
 # docker 一键安装：
 可以下载putty，进入终端，复制下面命令，按提示操作，不知道怎样填就默认回车：
 
-wget  https://gitee.com/xr2021/jd-shell/raw/v3/install_scripts/docker_install_jd.sh -O docker_install_jd.sh && chmod +x docker_install_jd.sh && bash docker_install_jd.sh
+wget https://cdn.jsdelivr.net/gh/hajiuhajiu/jd-base@main/install_scripts/docker_install_jd.sh -O docker_install_jd.sh && chmod +x docker_install_jd.sh && bash docker_install_jd.sh
 
 安装完成后输入docker设备地址如192.168.1.1:5678 用户名admin密码admin5678 添加cookie，自行设定各脚本运行时间即可。
 
@@ -25,7 +25,7 @@ wget  https://gitee.com/xr2021/jd-shell/raw/v3/install_scripts/docker_install_jd
 # 扫码获取ck目前失效! 需要手动找cookie[点击查看](https://github.com/hajiuhajiu/scripts/blob/master/icon/GetJdCookie.md)  
 
 低调使用，不要fork！尽量第一时间同步更新脚本。
-防止失联请收藏gitee备份地址：https://gitee.com/xr2021/jdsign   
+
 
 # 建议安装docker可视化管理工具portainer,可以管理docker容器察看状态 
 按下面两步安装, 安装完成后 输入 ip地址:9000 (如:http://192.168.1.1:9000/)访问

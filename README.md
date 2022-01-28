@@ -10,7 +10,7 @@
 
 
 # git hub action
-不要用action跑， 否则github封号，  Action 打开方式 setting--actions ......Actions permissions
+不要用action跑，Action 打开方式 setting--actions ......Actions permissions
 .........Allow all actions...save 
 
 # docker 一键安装：

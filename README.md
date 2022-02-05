@@ -10,7 +10,7 @@
 # 安卓手机安装运行方法:[点击查看](https://github.com/hajiuhajiu/jdsign1112/blob/master/icon/Termux.md)
 
 # git hub action
-不要用action跑，Action 打开方式 setting--actions ......Actions permissions
+禁action跑，Action 打开方式 setting--actions ......Actions permissions
 .........Allow all actions...save 
 
 # docker 一键安装：

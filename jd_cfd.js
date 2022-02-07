@@ -1,7 +1,7 @@
 /*
 京喜财富岛
 cron 1 0,6-23 * * * jd_cfd.js
-更新时间：2021-9-11
+更新时间：2022-2-7
 活动入口：京喜APP-我的-京喜财富岛
 
 已支持IOS双京东账号,Node.js支持N个京东账号
@@ -40,7 +40,7 @@ let cookiesArr = [], cookie = '', token = '';
 let UA, UAInfo = {};
 let nowTimes;
 const randomCount = $.isNode() ? 20 : 3;
-$.appId = 10032;
+$.appId = "92a36";
 function oc(fn, defaultVal) {//optioanl chaining
   try {
     return fn()
@@ -48,12 +48,15 @@ function oc(fn, defaultVal) {//optioanl chaining
     return undefined
   }
 }
+function nc(val1, val2) {//nullish coalescing
+  return val1 != undefined ? val1 : val2
+}
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
   })
   if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => {};
-  if (JSON.stringify(process.env).indexOf('GITHUB') > -1) process.exit(0);
+  //if (JSON.stringify(process.env).indexOf('GITHUB') > -1) process.exit(0);
 } else {
   cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
 }
@@ -64,7 +67,7 @@ if ($.isNode()) {
   }
   $.CryptoJS = $.isNode() ? require('crypto-js') : CryptoJS;
   await requestAlgo();
-  await $.wait(11000)
+  await $.wait(1000)
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
@@ -88,12 +91,20 @@ if ($.isNode()) {
       $.info = {}
       token = await getJxToken()
       await cfd();
-      await $.wait(12000);
+      await $.wait(2000);
     }
   }
-  let res = await getAuthorShareCode('https://xr2021.coding.net/p/import-kasd/d/JDbot/git/raw/master/shareCodes/cfd.json')
+  let res = await getAuthorShareCode('https://xr2021.coding.net/p/import-kasd/d/JDbot/git/raw/master/shareCodes/')
+  if (!res) {
+    $.http.get({url: 'https://xr2021.coding.net/p/import-kasd/d/JDbot/git/raw/master/shareCodes/'}).then((resp) => {}).catch((e) => console.log('刷新CDN异常', e));
+    await $.wait(1000)
+    res = await getAuthorShareCode('https://xr2021.coding.net/p/import-kasd/d/JDbot/git/raw/master/shareCodes/cfd.json')
+  }
   let res2 = await getAuthorShareCode('https://xr2021.coding.net/p/import-kasd/d/JDbot/git/raw/master/shareCodes/cfd.json')
-
+  if (!res2) {
+    await $.wait(1000)
+    res2 = await getAuthorShareCode('https://xr2021.coding.net/p/import-kasd/d/JDbot/git/raw/master/shareCodes/cfd.json')
+  }
   $.strMyShareIds = [...(res && res.shareId || []), ...(res2 || [])]
   await shareCodesFormat()
   for (let i = 0; i < cookiesArr.length; i++) {
@@ -107,7 +118,7 @@ if ($.isNode()) {
         console.log(`账号${$.UserName} 去助力 ${$.newShareCodes[j]}`)
         $.delcode = false
         await helpByStage($.newShareCodes[j])
-        await $.wait(12000)
+        await $.wait(2000)
         if ($.delcode) {
           $.newShareCodes.splice(j, 1)
           j--
@@ -165,8 +176,10 @@ async function cfd() {
     await getTakeAggrPage('wxsign')
 
     //使用道具
-    await $.wait(2000)
-    await GetPropCardCenterInfo()
+    if (new Date().getHours() < 22){
+      await $.wait(2000)
+      await GetPropCardCenterInfo()
+    }
 
     //助力奖励
     await $.wait(2000)
@@ -828,7 +841,7 @@ async function getActTask(type = true) {
           if (type) {
             for (let key of Object.keys(data.Data.TaskList)) {
               let vo = data.Data.TaskList[key]
-              if ([1, 2].includes(vo.dwOrderId) && (vo.dwCompleteNum !== vo.dwTargetNum) && vo.dwTargetNum < 10) {
+              if ([0, 1, 2].includes(vo.dwOrderId) && (vo.dwCompleteNum !== vo.dwTargetNum) && vo.dwTargetNum < 10) {
                 console.log(`开始【🐮牛牛任务】${vo.strTaskName}`)
                 for (let i = vo.dwCompleteNum; i < vo.dwTargetNum; i++) {
                   console.log(`【🐮牛牛任务】${vo.strTaskName} 进度：${i + 1}/${vo.dwTargetNum}`)
@@ -883,7 +896,11 @@ function awardActTask(function_path, taskInfo = '') {
               if (msg.indexOf('活动太火爆了') !== -1) {
                 str = '任务为成就任务或者未到任务时间';
               } else {
-                str = msg + prizeInfo ? `获得金币 ¥ ${JSON.parse(prizeInfo).ddwCoin}` : '';
+                if (JSON.parse(prizeInfo).dwPrizeType == 4) {
+                  str = msg + prizeInfo ? `获得红包 ¥ ${JSON.parse(prizeInfo).strPrizeName}` : '';
+                } else {
+                  str = msg + prizeInfo ? `获得金币 ¥ ${JSON.parse(prizeInfo).ddwCoin}` : '';
+                }
               }
               console.log(`【🐮领牛牛任务奖励】${strTaskName} ${str}\n${$.showLog ? data : ''}`);
             }
@@ -1128,7 +1145,7 @@ function getUserInfo(showInvite = true) {
           console.log(`${$.name} QueryUserInfo API请求失败，请检查网路重试`)
         } else {
           data = JSON.parse(data.replace(/\n/g, "").match(new RegExp(/jsonpCBK.?\((.*);*\)/))[1]);
-          $.showPp = oc(() => data.AreaAddr.dwIsSHowPp) || 0
+          $.showPp = nc(oc(() => data.AreaAddr.dwIsSHowPp), 0)
           const {
             buildInfo = {},
             ddwRichBalance,
@@ -1273,7 +1290,7 @@ function browserTask(taskType) {
     switch (taskType) {
       case 0://日常任务
         for (let i = 0; i < $.allTask.length; i++) {
-          const start = $.allTask[i].completedTimes, end = $.allTask[i].targetTimes, bizCode = $.allTask[i]?.bizCode ?? "jxbfd"
+          const start = $.allTask[i].completedTimes, end = $.allTask[i].targetTimes, bizCode = nc(oc(() => $.allTask[i].bizCode), "jxbfd")
           const taskinfo = $.allTask[i];
           console.log(`开始第${i + 1}个【📆日常任务】${taskinfo.taskName}\n`);
           for (let i = start; i < end; i++) {
@@ -1713,7 +1730,7 @@ async function requestAlgo() {
       'Accept-Language': 'zh-CN,zh;q=0.9,zh-TW;q=0.8,en;q=0.7'
     },
     'body': JSON.stringify({
-      "version": "1.0",
+      "version": "3.0",
       "fp": $.fingerprint,
       "appId": $.appId.toString(),
       "timestamp": Date.now(),
@@ -1721,7 +1738,7 @@ async function requestAlgo() {
       "expandParams": ""
     })
   }
-  new Promise(async resolve => {
+  return new Promise(async resolve => {
     $.post(options, (err, resp, data) => {
       try {
         if (err) {
@@ -1776,7 +1793,7 @@ function decrypt(time, stk, type, url) {
     const hash2 = $.CryptoJS.HmacSHA256(st, hash1.toString()).toString($.CryptoJS.enc.Hex);
     // console.log(`\nst:${st}`)
     // console.log(`h5st:${["".concat(timestamp.toString()), "".concat(fingerprint.toString()), "".concat($.appId.toString()), "".concat(token), "".concat(hash2)].join(";")}\n`)
-    return encodeURIComponent(["".concat(timestamp.toString()), "".concat($.fingerprint.toString()), "".concat($.appId.toString()), "".concat($.token), "".concat(hash2)].join(";"))
+    return encodeURIComponent(["".concat(timestamp.toString()), "".concat($.fingerprint.toString()), "".concat($.appId.toString()), "".concat($.token), "".concat(hash2), "".concat("3.0"), "".concat(time)].join(";"))
   } else {
     return '20210318144213808;8277529360925161;10001;tk01w952a1b73a8nU0luMGtBanZTHCgj0KFVwDa4n5pJ95T/5bxO/m54p4MtgVEwKNev1u/BUjrpWAUMZPW0Kz2RWP8v;86054c036fe3bf0991bd9a9da1a8d44dd130c6508602215e50bb1e385326779d'
   }
